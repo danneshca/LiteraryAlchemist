@@ -93,7 +93,7 @@ export default function LiteraryAlchemistClient() {
           <Textarea
             value={output.data.transformedText}
             readOnly
-            className="min-h-[200px] text-base bg-background/70"
+            className="min-h-[250px] text-base bg-background/70"
             aria-label="转换后的文本"
           />
         );
@@ -116,7 +116,7 @@ export default function LiteraryAlchemistClient() {
               <Textarea
                 value={output.data.adjustedText}
                 readOnly
-                className="min-h-[150px] text-base mt-1 bg-background/70"
+                className="min-h-[200px] text-base mt-1 bg-background/70"
                 aria-label="调整节奏后的文本"
               />
             </div>
@@ -137,7 +137,7 @@ export default function LiteraryAlchemistClient() {
             <Textarea
               value={output.data.deAIText}
               readOnly
-              className="min-h-[200px] text-base mt-1 bg-background/70"
+              className="min-h-[250px] text-base mt-1 bg-background/70"
               aria-label="去AI化后的文本"
             />
           </div>
@@ -155,7 +155,7 @@ export default function LiteraryAlchemistClient() {
         <Card className="shadow-lg">
           <CardHeader>
             <CardTitle className="font-headline text-3xl text-primary">输入与选项</CardTitle>
-            <CardDescription>在此处粘贴您的文本，并选择您希望的炼金术。</CardDescription>
+            <CardDescription className="text-sm">在此处粘贴您的文本，并选择您希望的炼金术。</CardDescription>
           </CardHeader>
           <form onSubmit={handleSubmit}>
             <CardContent className="space-y-6">
@@ -166,7 +166,7 @@ export default function LiteraryAlchemistClient() {
                   placeholder="在此输入您的写作片段..."
                   value={inputText}
                   onChange={(e) => setInputText(e.target.value)}
-                  className="min-h-[200px] mt-2 text-base focus:ring-accent"
+                  className="min-h-[250px] mt-2 text-base focus:ring-accent"
                   aria-label="文本输入区域"
                 />
               </div>
@@ -238,7 +238,7 @@ export default function LiteraryAlchemistClient() {
         <Card className="shadow-lg">
           <CardHeader>
             <CardTitle className="font-headline text-3xl text-primary">炼金成果</CardTitle>
-            <CardDescription>AI增强后的文本或建议将在此显示。</CardDescription>
+            <CardDescription className="text-sm">AI增强后的文本或建议将在此显示。</CardDescription>
           </CardHeader>
           <CardContent className="min-h-[400px] prose prose-lg max-w-none prose-p:text-base prose-li:text-base">
             {renderOutput()}
