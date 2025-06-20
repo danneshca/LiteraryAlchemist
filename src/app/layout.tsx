@@ -16,7 +16,7 @@ export default function RootLayout({
 }>) {
   return (
     <LanguageProvider>
-      <html lang="zh-CN"> {/* Default lang, will be updated by LanguageProvider effect */}
+      <html lang="zh-CN">{/* Default lang, will be updated by LanguageProvider effect */}
         <head>
           <link rel="preconnect" href="https://fonts.googleapis.com" />
           <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
