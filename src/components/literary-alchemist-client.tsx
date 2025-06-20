@@ -1,3 +1,4 @@
+
 // src/components/literary-alchemist-client.tsx
 "use client";
 
@@ -8,7 +9,7 @@ import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Loader2, Palette, LayoutList, Waves, AlertCircle, Wand2 } from "lucide-react";
+import { Loader2, Palette, LayoutList, Waves, Wand2, Brain } from "lucide-react";
 import { processText, type AiTool, type TargetStyle, type ProcessTextOutput } from '@/app/actions';
 import { useToast } from "@/hooks/use-toast";
 
@@ -16,11 +17,14 @@ const AIToolOptions: { value: AiTool; label: string; icon: React.ElementType }[]
   { value: "style-transformer", label: "风格转换", icon: Palette },
   { value: "structure-advisor", label: "结构建议", icon: LayoutList },
   { value: "rhythm-adjuster", label: "节奏调整", icon: Waves },
+  { value: "de-ai-text", label: "文字去AI化", icon: Brain },
 ];
 
 const TargetStyleOptions: { value: TargetStyle; label: string }[] = [
   { value: "Lu Xun", label: "鲁迅风格" },
   { value: "Hayao Miyazaki", label: "宫崎骏风格" },
+  { value: "Shakespeare", label: "莎士比亚风格" },
+  { value: "Edgar Allan Poe", label: "爱伦坡风格" },
 ];
 
 export default function LiteraryAlchemistClient() {
@@ -126,8 +130,22 @@ export default function LiteraryAlchemistClient() {
             </div>
           </div>
         );
+      case "de-ai-text":
+        return (
+          <div>
+            <h3 className="font-headline text-lg text-primary">去AI化文本:</h3>
+            <Textarea
+              value={output.data.deAIText}
+              readOnly
+              className="min-h-[200px] text-base mt-1 bg-background/70"
+              aria-label="去AI化后的文本"
+            />
+          </div>
+        );
       default:
-        return <p>未知输出类型。</p>;
+        // This case should ideally not be reached if types are correct
+        const exhaustiveCheck: never = output; 
+        return <p>未知输出类型: {exhaustiveCheck}</p>;
     }
   };
 
@@ -157,8 +175,16 @@ export default function LiteraryAlchemistClient() {
                 <Label className="text-lg font-headline">选择功能</Label>
                 <RadioGroup
                   value={selectedTool}
-                  onValueChange={(value) => setSelectedTool(value as AiTool)}
-                  className="mt-2 grid grid-cols-1 sm:grid-cols-3 gap-4"
+                  onValueChange={(value) => {
+                    const newTool = value as AiTool;
+                    setSelectedTool(newTool);
+                    if (newTool !== "style-transformer") {
+                      setSelectedStyle(undefined);
+                    } else if (!selectedStyle && TargetStyleOptions.length > 0) {
+                      setSelectedStyle(TargetStyleOptions[0].value);
+                    }
+                  }}
+                  className="mt-2 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4"
                 >
                   {AIToolOptions.map(tool => (
                     <Label
@@ -168,7 +194,7 @@ export default function LiteraryAlchemistClient() {
                     >
                        <RadioGroupItem value={tool.value} id={tool.value} className="sr-only" />
                       <tool.icon className={`h-8 w-8 mb-2 ${selectedTool === tool.value ? 'text-primary' : 'text-muted-foreground'}`} />
-                      <span className={`text-center ${selectedTool === tool.value ? 'text-primary font-medium' : ''}`}>{tool.label}</span>
+                      <span className={`text-center text-sm ${selectedTool === tool.value ? 'text-primary font-medium' : ''}`}>{tool.label}</span>
                     </Label>
                   ))}
                 </RadioGroup>
@@ -180,6 +206,7 @@ export default function LiteraryAlchemistClient() {
                    <Select
                     value={selectedStyle}
                     onValueChange={(value) => setSelectedStyle(value as TargetStyle)}
+                    required={selectedTool === "style-transformer"}
                   >
                     <SelectTrigger id="targetStyle" className="mt-2 text-base focus:ring-accent" aria-label="选择目标风格">
                       <SelectValue placeholder="选择一种风格" />

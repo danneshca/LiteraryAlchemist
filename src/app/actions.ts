@@ -1,12 +1,14 @@
+
 // src/app/actions.ts
 "use server";
 
 import { styleTransform, type StyleTransformInput, type StyleTransformOutput } from '@/ai/flows/style-transformer';
 import { structureAdvisor, type StructureAdvisorInput, type StructureAdvisorOutput } from '@/ai/flows/structure-advisor';
 import { adjustRhythm, type AdjustRhythmInput, type AdjustRhythmOutput } from '@/ai/flows/rhythm-adjuster';
+import { deAiText, type DeAiTextInput, type DeAiTextOutput } from '@/ai/flows/deai-text-flow';
 
-export type AiTool = "style-transformer" | "structure-advisor" | "rhythm-adjuster";
-export type TargetStyle = "Lu Xun" | "Hayao Miyazaki";
+export type AiTool = "style-transformer" | "structure-advisor" | "rhythm-adjuster" | "de-ai-text";
+export type TargetStyle = "Lu Xun" | "Hayao Miyazaki" | "Shakespeare" | "Edgar Allan Poe";
 
 interface ProcessTextInput {
   text: string;
@@ -17,7 +19,8 @@ interface ProcessTextInput {
 export type ProcessTextOutput = 
   | { tool: "style-transformer"; data: StyleTransformOutput }
   | { tool: "structure-advisor"; data: StructureAdvisorOutput }
-  | { tool: "rhythm-adjuster"; data: AdjustRhythmOutput };
+  | { tool: "rhythm-adjuster"; data: AdjustRhythmOutput }
+  | { tool: "de-ai-text"; data: DeAiTextOutput };
 
 
 export async function processText(input: ProcessTextInput): Promise<ProcessTextOutput | { error: string }> {
@@ -41,8 +44,15 @@ export async function processText(input: ProcessTextInput): Promise<ProcessTextO
         const rhythmOutput = await adjustRhythm(rhythmInput);
         return { tool: "rhythm-adjuster", data: rhythmOutput };
 
+      case "de-ai-text":
+        const deAiInput: DeAiTextInput = { text: input.text };
+        const deAiOutput = await deAiText(deAiInput);
+        return { tool: "de-ai-text", data: deAiOutput };
+
       default:
-        return { error: "Invalid tool selected." };
+        // This should ideally be caught by TypeScript, but as a fallback:
+        const exhaustiveCheck: never = input.tool;
+        return { error: `Invalid tool selected: ${exhaustiveCheck}` };
     }
   } catch (e: any) {
     console.error("Error processing text:", e);
