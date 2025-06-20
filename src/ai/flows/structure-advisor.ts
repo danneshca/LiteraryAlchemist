@@ -1,3 +1,4 @@
+
 'use server';
 
 /**
@@ -34,6 +35,8 @@ const prompt = ai.definePrompt({
   prompt: `You are an expert writing advisor specializing in structural improvements.
 
   Provide structural suggestions for the following text, such as reordering paragraphs or adding transitions, to improve the flow and coherence. Return suggestions as a numbered list.
+
+IMPORTANT: The output language for suggestions MUST be the same as the input language.
 
   Text: {{{text}}}
   `,

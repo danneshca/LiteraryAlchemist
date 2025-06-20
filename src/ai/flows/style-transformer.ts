@@ -1,3 +1,4 @@
+
 // src/ai/flows/style-transformer.ts
 'use server';
 /**
@@ -32,7 +33,9 @@ const prompt = ai.definePrompt({
   output: {schema: StyleTransformOutputSchema},
   prompt: `You are an expert in transforming text into the style of famous authors.
 
-  Transform the following text into the style of {{targetStyle}}:
+  Transform the following text into the style of {{targetStyle}}.
+
+IMPORTANT: The output language MUST be the same as the input language.
 
   {{{text}}}`,
 });

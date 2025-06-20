@@ -31,6 +31,8 @@ const prompt = ai.definePrompt({
   output: {schema: DeAiTextOutputSchema},
   prompt: `You are an expert in making AI-generated text sound more human-like. Your task is to rewrite the given text to remove any tell-tale signs of AI generation. Make it sound natural, engaging, and less formal or robotic. Focus on varying sentence structure, using more common vocabulary, and injecting a more personal tone where appropriate, without altering the core meaning.
 
+IMPORTANT: The output language MUST be the same as the input language.
+
 Text: {{{text}}}
 
 Humanized Text:

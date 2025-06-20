@@ -1,3 +1,4 @@
+
 'use server';
 
 /**
@@ -31,6 +32,8 @@ const prompt = ai.definePrompt({
   input: {schema: AdjustRhythmInputSchema},
   output: {schema: AdjustRhythmOutputSchema},
   prompt: `You are an expert in rhythm and pacing in writing. Your task is to adjust the rhythm and pacing of the given text and provide suggestions on where to add pauses, emphasis, or variations to create a more engaging and impactful reading experience.
+
+IMPORTANT: The output language for both the adjusted text and suggestions MUST be the same as the input language.
 
 Text: {{{text}}}
 
