@@ -152,10 +152,10 @@ export default function LiteraryAlchemistClient() {
   return (
     <div className="container mx-auto py-8 px-4 flex-grow">
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-        <Card className="shadow-xl">
+        <Card className="shadow-lg">
           <CardHeader>
             <CardTitle className="font-headline text-3xl text-primary">输入与选项</CardTitle>
-            <CardDescription className="text-base">在此处粘贴您的文本，并选择您希望的炼金术。</CardDescription>
+            <CardDescription>在此处粘贴您的文本，并选择您希望的炼金术。</CardDescription>
           </CardHeader>
           <form onSubmit={handleSubmit}>
             <CardContent className="space-y-6">
@@ -235,10 +235,10 @@ export default function LiteraryAlchemistClient() {
           </form>
         </Card>
 
-        <Card className="shadow-xl">
+        <Card className="shadow-lg">
           <CardHeader>
             <CardTitle className="font-headline text-3xl text-primary">炼金成果</CardTitle>
-            <CardDescription className="text-base">AI增强后的文本或建议将在此显示。</CardDescription>
+            <CardDescription>AI增强后的文本或建议将在此显示。</CardDescription>
           </CardHeader>
           <CardContent className="min-h-[400px] prose prose-lg max-w-none prose-p:text-base prose-li:text-base">
             {renderOutput()}
