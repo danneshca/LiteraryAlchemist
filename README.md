@@ -65,4 +65,8 @@
 *   `src/locales/`: 用于国际化 (i18n) 的 JSON 文件。
 *   `public/`: 静态资源。
 
+## 许可证
+
+本项目采用 [MIT 许可证](LICENSE)。
+
 本项目在 Firebase Studio 中初始化。
