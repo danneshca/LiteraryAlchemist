@@ -12,6 +12,8 @@ import { Loader2, Palette, LayoutList, Waves, Wand2, Brain } from "lucide-react"
 import { processText, type AiTool, type TargetStyle, type ProcessTextOutput } from '@/app/actions';
 import { useToast } from "@/hooks/use-toast";
 import { useLanguage } from '@/contexts/language-context';
+import ReactMarkdown from 'react-markdown';
+import remarkGfm from 'remark-gfm';
 
 interface AIToolOption {
   value: AiTool;
@@ -107,15 +109,17 @@ export default function LiteraryAlchemistClient() {
       );
     }
 
+    const markdownContainerClasses = "min-h-[250px] text-base bg-background/70 p-3 rounded-md overflow-auto";
+
     switch (output.tool) {
       case "style-transformer":
         return (
-          <Textarea
-            value={output.data.transformedText}
-            readOnly
-            className="min-h-[250px] text-base bg-background/70"
+          <div 
+            className={markdownContainerClasses}
             aria-label={t('outputCard.styleTransformer.ariaLabel')}
-          />
+          >
+            <ReactMarkdown remarkPlugins={[remarkGfm]}>{output.data.transformedText}</ReactMarkdown>
+          </div>
         );
       case "structure-advisor":
         return (
@@ -133,12 +137,12 @@ export default function LiteraryAlchemistClient() {
           <div className="space-y-4">
             <div>
               <h3 className="font-headline text-lg text-primary">{t('outputCard.rhythmAdjuster.adjustedTextTitle')}</h3>
-              <Textarea
-                value={output.data.adjustedText}
-                readOnly
-                className="min-h-[200px] text-base mt-1 bg-background/70"
+               <div 
+                className="min-h-[200px] text-base mt-1 bg-background/70 p-3 rounded-md overflow-auto"
                 aria-label={t('outputCard.rhythmAdjuster.adjustedTextAriaLabel')}
-              />
+              >
+                <ReactMarkdown remarkPlugins={[remarkGfm]}>{output.data.adjustedText}</ReactMarkdown>
+              </div>
             </div>
             <div>
               <h3 className="font-headline text-lg text-primary">{t('outputCard.rhythmAdjuster.suggestionsTitle')}</h3>
@@ -154,12 +158,12 @@ export default function LiteraryAlchemistClient() {
         return (
           <div>
             <h3 className="font-headline text-lg text-primary">{t('outputCard.deAiText.title')}</h3>
-            <Textarea
-              value={output.data.deAIText}
-              readOnly
-              className="min-h-[250px] text-base mt-1 bg-background/70"
+            <div
+              className={`${markdownContainerClasses} mt-1`}
               aria-label={t('outputCard.deAiText.ariaLabel')}
-            />
+            >
+              <ReactMarkdown remarkPlugins={[remarkGfm]}>{output.data.deAIText}</ReactMarkdown>
+            </div>
           </div>
         );
       default:
